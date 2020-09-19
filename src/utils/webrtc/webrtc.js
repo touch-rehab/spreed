@@ -504,21 +504,21 @@ export default function initWebRTC(signaling, _callParticipantCollection, _local
 	// TODO: The name for the avatar should come from the participant list
 	// which already has all information and get rid of using the
 	// DataChannel for this.
-	function stopSendingNick(peer) {
-		if (!peer.nickInterval) {
+	function stopSendingNick() {
+		if (!ownPeer.nickInterval) {
 			return
 		}
 
-		clearInterval(peer.nickInterval)
-		peer.nickInterval = null
+		clearInterval(ownPeer.nickInterval)
+		ownPeer.nickInterval = null
 	}
-	function startSendingNick(peer) {
+	function startSendingNick() {
 		if (!signaling.hasFeature('mcu')) {
 			return
 		}
 
-		stopSendingNick(peer)
-		peer.nickInterval = setInterval(function() {
+		stopSendingNick()
+		ownPeer.nickInterval = setInterval(function() {
 			let payload
 			if (signaling.settings.userId === null) {
 				payload = store.getters.getDisplayName()
@@ -528,7 +528,7 @@ export default function initWebRTC(signaling, _callParticipantCollection, _local
 					'userid': signaling.settings.userId,
 				}
 			}
-			peer.sendDirectly('status', 'nickChanged', payload)
+			ownPeer.sendDirectly('status', 'nickChanged', payload)
 		}, 1000)
 	}
 
@@ -712,7 +712,7 @@ export default function initWebRTC(signaling, _callParticipantCollection, _local
 			if (peer.id === signaling.getSessionId()) {
 				console.debug('Not adding ICE connection state handler for own peer', peer)
 
-				startSendingNick(peer)
+				startSendingNick()
 			} else {
 				setHandlerForIceConnectionStateChange(peer)
 			}
@@ -794,7 +794,6 @@ export default function initWebRTC(signaling, _callParticipantCollection, _local
 	function stopPeerCheckMedia(peer) {
 		stopPeerCheckAudioMedia(peer)
 		stopPeerCheckVideoMedia(peer)
-		stopSendingNick(peer)
 	}
 
 	function startPeerCheckMedia(peer, stream) {
@@ -835,6 +834,10 @@ export default function initWebRTC(signaling, _callParticipantCollection, _local
 
 	webrtc.on('peerStreamRemoved', function(peer) {
 		stopPeerCheckMedia(peer)
+
+		if (peer.id === signaling.getSessionId()) {
+			stopSendingNick()
+		}
 	})
 
 	webrtc.webrtc.on('videoOn', function() {
