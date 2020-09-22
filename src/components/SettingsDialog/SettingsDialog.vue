@@ -38,7 +38,7 @@
 				:disabled="attachmentFolderLoading"
 				@click="selectAttachmentFolder">
 		</AppSettingsSection>
-		<AppSettingsSection :title="t('spreed', 'keyboard shortcuts')">
+		<AppSettingsSection :title="t('spreed', 'Keyboard shortcuts')">
 			<p>{{ t('spreed', 'Speed up your Talk experience with these quick shortcuts.') }}</p>
 
 			<dl>
