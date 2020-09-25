@@ -24,7 +24,7 @@ import axios from '@nextcloud/axios'
 import { generateOcsUrl } from '@nextcloud/router'
 
 /**
- * Gets the conversation token for a given file id
+ * Sets the attachment folder setting for the user
  *
  * @param {string} path The name of the folder
  * @returns {Object} The axios response
@@ -36,6 +36,20 @@ const setAttachmentFolder = async function(path) {
 	})
 }
 
+/**
+ * Sets the read status privacy setting for the user
+ *
+ * @param {string} privacy The selected value, either 'private' or 'public'
+ * @returns {Object} The axios response
+ */
+const setReadStatusPrivacy = async function(privacy) {
+	return axios.post(generateOcsUrl('apps/spreed/api/v1/settings', 2) + 'user', {
+		key: 'read_status_privacy',
+		value: privacy,
+	})
+}
+
 export {
 	setAttachmentFolder,
+	setReadStatusPrivacy,
 }

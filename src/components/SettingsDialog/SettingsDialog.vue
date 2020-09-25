@@ -44,6 +44,22 @@
 					:disabled="attachmentFolderLoading"
 					@click="selectAttachmentFolder">
 			</div>
+			<div v-if="!isGuest"
+				class="app-settings-section">
+				<h2 class="app-setting-section__title">
+					{{ t('spreed', 'Privacy') }}
+				</h2>
+
+				<p>
+					<input id="read_status_privacy"
+						:checked="readStatusPrivacyIsPublic"
+						type="checkbox"
+						name="read_status_privacy"
+						class="checkbox"
+						@change="toggleReadStatusPrivacy">
+					<label for="read_status_privacy">{{ t('spreed', 'Share my read-status and show the read-status of others') }}</label>
+				</p>
+			</div>
 			<div class="app-settings-section last">
 				<h2 class="app-setting-section__title">
 					{{ t('spreed', 'Keyboard shortcuts') }}
@@ -101,8 +117,12 @@
 <script>
 import Modal from '@nextcloud/vue/dist/Components/Modal'
 import { getFilePickerBuilder, showError } from '@nextcloud/dialogs'
-import { setAttachmentFolder } from '../../services/settingsService'
+import {
+	setAttachmentFolder,
+	setReadStatusPrivacy,
+} from '../../services/settingsService'
 import { EventBus } from '../../services/EventBus'
+import { PRIVACY } from '../../constants'
 import MediaDevicesPreview from '../MediaDevicesPreview'
 
 export default {
@@ -131,6 +151,15 @@ export default {
 
 		isGuest() {
 			return !this.$store.getters.getUserId()
+		},
+
+		readStatusPrivacyIsPublic() {
+			console.log(this.readStatusPrivacy)
+			return this.readStatusPrivacy === PRIVACY.PUBLIC
+		},
+
+		readStatusPrivacy() {
+			return this.$store.getters.getReadStatusPrivacy()
 		},
 	},
 
@@ -168,6 +197,20 @@ export default {
 					}
 					this.attachmentFolderLoading = false
 				})
+		},
+
+		async toggleReadStatusPrivacy() {
+			let newPrivacy = PRIVACY.PUBLIC
+			if (this.readStatusPrivacyIsPublic) {
+				newPrivacy = PRIVACY.PRIVATE
+			}
+
+			try {
+				this.$store.commit('updateReadStatusPrivacy', newPrivacy)
+				await setReadStatusPrivacy(newPrivacy)
+			} catch (exception) {
+				showError(t('spreed', 'Error while setting read status privacy'))
+			}
 		},
 
 		handleShowSettings(showSettings) {
