@@ -49,6 +49,8 @@ class Util {
 	private $userMountCache;
 	/** @var array[] */
 	private $accessLists = [];
+	/** @var bool[] */
+	private $publicAccessLists = [];
 
 	public function __construct(IRootFolder $rootFolder,
 			ISession $session,
@@ -82,6 +84,7 @@ class Util {
 			}
 
 			$this->accessLists[$fileId] = $accessList['users'];
+			$this->publicAccessLists[$fileId] = $accessList['public'];
 		}
 
 		return $this->accessLists[$fileId];
@@ -89,6 +92,12 @@ class Util {
 
 	public function canUserAccessFile(string $fileId, string $userId): bool {
 		return \in_array($userId, $this->getUsersWithAccessFile($fileId), true);
+	}
+
+	public function canGuestsAccessFile(string $fileId): bool {
+		$this->getUsersWithAccessFile($fileId);
+		$publicShared = $this->publicAccessLists[$fileId] ?? false;
+		return $publicShared === true;
 	}
 
 	public function canGuestAccessFile(string $shareToken): bool {
