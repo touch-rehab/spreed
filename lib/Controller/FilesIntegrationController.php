@@ -45,7 +45,6 @@ use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager as IShareManager;
-use OCP\Share\IShare;
 
 class FilesIntegrationController extends OCSController {
 
