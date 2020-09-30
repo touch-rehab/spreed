@@ -24,16 +24,9 @@ declare(strict_types=1);
 namespace OCA\Talk\Tests\php\Files;
 
 use OCA\GroupFolders\Mount\GroupFolderStorage;
-use OCA\Talk\Files\Util;
-use OCP\Files\Config\IUserMountCache;
 use OCP\Files\FileInfo;
-use OCP\Files\Folder;
 use OCP\Files\Node;
-use OCP\Files\IRootFolder;
 use OCP\Files\Storage\IStorage;
-use OCP\ISession;
-use OCP\Share\IManager;
-use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class UtilTest extends TestCase {

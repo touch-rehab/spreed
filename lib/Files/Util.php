@@ -24,18 +24,15 @@ declare(strict_types=1);
 
 namespace OCA\Talk\Files;
 
-use OCA\GroupFolders\Mount\GroupFolderStorage;
 use OCA\Files_Sharing\SharedStorage;
 use OCP\Files\Config\ICachedMountInfo;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\FileInfo;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
-use OCP\Files\NotFoundException;
 use OCP\ISession;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager as IShareManager;
-use OCP\Share\IShare;
 
 class Util {
 
