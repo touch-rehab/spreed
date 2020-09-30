@@ -72,49 +72,4 @@ class UtilTest extends TestCase {
 			], 1],
 		];
 	}
-
-	/**
-	 * @dataProvider dataGetGroupFolderNode
-	 *
-	 * @param string $fileId
-	 * @param string $userId
-	 * @param array $nodes
-	 * @param bool|int $hasReturn
-	 */
-	public function testGetGroupFolderNode(string $fileId, string $userId, array $nodes, $return): void {
-		$userFolder = $this->createMock(Folder::class);
-		$userFolder->expects($this->once())
-			->method('getById')
-			->with($fileId)
-			->willReturn($nodes);
-
-		/** @var IRootFolder|MockObject $rootFolder */
-		$rootFolder = $this->createMock(IRootFolder::class);
-		$rootFolder->expects($this->once())
-			->method('getUserFolder')
-			->with($userId)
-			->willReturn($userFolder);
-
-		/** @var ISession|MockObject $session */
-		$session = $this->createMock(ISession::class);
-
-		/** @var IManager|MockObject $shareManager */
-		$shareManager = $this->createMock(IManager::class);
-
-		/** @var IUserMountCache|MockObject $userMountCache */
-		$userMountCache = $this->createMock(IUserMountCache::class);
-
-		$util = new Util(
-			$rootFolder,
-			$session,
-			$shareManager,
-			$userMountCache
-		);
-		$result = $util->getGroupFolderNode($fileId, $userId);
-		if ($return !== false) {
-			$this->assertSame($nodes[$return], $result);
-		} else {
-			$this->assertNull($result);
-		}
-	}
 }
