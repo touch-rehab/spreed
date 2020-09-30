@@ -127,7 +127,7 @@ class Util {
 		$userFolder = $this->rootFolder->getUserFolder($userId);
 		$nodes = $userFolder->getById((int) $fileId);
 
-		$nodes = array_filter($nodes, static function ($node) {
+		$nodes = array_filter($nodes, static function (Node $node) {
 			return $node->getType() === FileInfo::TYPE_FILE;
 		});
 
