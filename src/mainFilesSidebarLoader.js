@@ -20,6 +20,7 @@
  *
  */
 
+import Vue from 'vue'
 import FilesSidebarCallView from './views/FilesSidebarCallView'
 import FilesSidebarTab from './views/FilesSidebarTab'
 import { leaveConversation } from './services/participantsService'
@@ -46,9 +47,37 @@ const isEnabled = function(fileInfo) {
 	return false
 }
 
+const View = Vue.extend(FilesSidebarTab)
+let TabInstance = null
+
 window.addEventListener('DOMContentLoaded', () => {
 	if (OCA.Files && OCA.Files.Sidebar) {
 		OCA.Files.Sidebar.registerSecondaryView(new FilesSidebarCallView())
-		OCA.Files.Sidebar.registerTab(new OCA.Files.Sidebar.Tab('tab-chat', FilesSidebarTab, isEnabled))
+		OCA.Files.Sidebar.registerTab(new OCA.Files.Sidebar.Tab({
+			id: 'chat',
+			name: t('spreed', 'Chat'),
+			icon: 'icon-talk',
+			enabled: isEnabled,
+
+			async mount(el, fileInfo, context) {
+				if (TabInstance) {
+					TabInstance.$destroy()
+				}
+				TabInstance = new View({
+					// Better integration with vue parent component
+					parent: context,
+				})
+				// Only mount after we have all the info we need
+				await TabInstance.update(fileInfo)
+				TabInstance.$mount(el)
+			},
+			update(fileInfo) {
+				TabInstance.update(fileInfo)
+			},
+			destroy() {
+				TabInstance.$destroy()
+				TabInstance = null
+			},
+		}))
 	}
 })
