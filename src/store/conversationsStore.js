@@ -24,6 +24,7 @@ import {
 	makePublic,
 	makePrivate,
 	changeLobbyState,
+	setSIPEnabled,
 	addToFavorites,
 	removeFromFavorites,
 	setConversationName,
@@ -202,6 +203,19 @@ const actions = {
 
 		await setConversationName(token, name)
 		conversation.displayName = name
+
+		commit('addConversation', conversation)
+	},
+
+	async setSIPEnabled({ commit, getters }, { token, state }) {
+		const conversation = Object.assign({}, getters.conversations[token])
+		if (!conversation) {
+			return
+		}
+
+		// The backend requires the state and timestamp to be set together.
+		await setSIPEnabled(token, state)
+		conversation.sipEnabled = state
 
 		commit('addConversation', conversation)
 	},

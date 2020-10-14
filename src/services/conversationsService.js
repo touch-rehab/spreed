@@ -297,6 +297,17 @@ const changeLobbyState = async function(token, newState, timestamp) {
 	}
 }
 
+/**
+ * Change the SIP enabled
+ * @param {string} token The token of the conversation to be modified
+ * @param {int} newState The new SIP state to set
+ */
+const setSIPEnabled = async function(token, newState) {
+	return axios.put(generateOcsUrl('apps/spreed/api/v2', 2) + `room/${token}/webinar/sip`, {
+		state: newState,
+	})
+}
+
 export {
 	fetchConversations,
 	fetchConversation,
@@ -312,6 +323,7 @@ export {
 	makePublic,
 	makePrivate,
 	changeLobbyState,
+	setSIPEnabled,
 	setConversationPassword,
 	setConversationName,
 }

@@ -119,6 +119,11 @@
 				</ActionInput>
 				<ActionSeparator />
 				<ActionCheckbox
+					:checked="hasSIPEnabled"
+					@change="toggleSIPEnabled">
+					{{ t('spreed', 'Enable SIP dial-in') }}
+				</ActionCheckbox>
+				<ActionCheckbox
 					:checked="hasLobbyEnabled"
 					@change="toggleLobby">
 					{{ t('spreed', 'Enable lobby') }}
@@ -317,6 +322,9 @@ export default {
 		hasLobbyEnabled() {
 			return this.conversation.lobbyState === WEBINAR.LOBBY.NON_MODERATORS
 		},
+		hasSIPEnabled() {
+			return this.conversation.sipEnabled === WEBINAR.SIP.ENABLED
+		},
 		isPasswordProtected() {
 			return this.conversation.hasPassword
 		},
@@ -456,6 +464,18 @@ export default {
 			})
 
 			this.lobbyTimerLoading = false
+		},
+		async toggleSIPEnabled(checked) {
+			try {
+				await this.$store.dispatch('setSIPEnabled', {
+					token: this.token,
+					state: checked ? WEBINAR.SIP.ENABLED : WEBINAR.SIP.DISABLED,
+				})
+			} catch (e) {
+				// TODO check "precondition failed"
+				// TODO showError()
+				console.error(e)
+			}
 		},
 		async handlePasswordDisable() {
 			// disable the password protection for the current conversation
