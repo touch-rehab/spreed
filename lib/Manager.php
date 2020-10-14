@@ -814,7 +814,7 @@ class Manager {
 		} else {
 			$chars = ISecureRandom::CHAR_DIGITS;
 			// Increase default token length as we only use numbers
-			$entropy = min(10, $entropy);
+			$entropy = max(10, $entropy);
 		}
 
 		$query = $this->db->getQueryBuilder();
