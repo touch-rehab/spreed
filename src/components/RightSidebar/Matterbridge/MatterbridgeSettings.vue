@@ -231,12 +231,11 @@ export default {
 					name: 'WhatsApp',
 					infoTarget: 'https://touch.rehab',
 					fields: {
-						jn
-						groupid: {
-							type: 'text',
-							placeholder: t('spreed', 'WhatsApp Group ID'),
-							icon: 'icon-user',
-						},
+						channel: {
+ 							type: 'text',
+ 							placeholder: t('spreed', 'WhatsApp Group ID'),
+ 							icon: 'icon-group',
+ 						},
 						
 					},
 				},
