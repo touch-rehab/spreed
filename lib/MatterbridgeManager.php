@@ -382,11 +382,11 @@ class MatterbridgeManager {
 				$content .= '	PrefixMessagesWithNick = true' . "\n";
 				$content .= '	NoHomeServerSuffix = true' . "\n";
 				$content .= '	RemoteNickFormat = "[{PROTOCOL}] <{NICK}> "' . "\n\n";
-			} elseif ($type === 'zulip') {
+			} elseif ($type === 'whatsapp') {
 				$content .= sprintf('[%s.%s]', $type, $k) . "\n";
-				$content .= sprintf('	Server = "%s"', $part['server']) . "\n";
-				$content .= sprintf('	Login = "%s"', $part['login']) . "\n";
-				$content .= sprintf('	Token = "%s"', $part['token']) . "\n";
+				$content .= sprintf('	Number = "+17654443331"') . "\n";
+				$content .= sprintf('	SessionFile="session-48111222333.gob"') . "\n";
+				$content .= sprintf('	QrOnWhiteTerminal=false') . "\n";
 				$content .= '	PrefixMessagesWithNick = true' . "\n";
 				$content .= '	RemoteNickFormat = "[{PROTOCOL}] <{NICK}> "' . "\n\n";
 			} elseif ($type === 'rocketchat') {
