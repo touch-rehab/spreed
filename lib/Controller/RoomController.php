@@ -483,6 +483,7 @@ class RoomController extends AEnvironmentAwareController {
 			'notificationLevel' => Participant::NOTIFY_NEVER,
 			'lobbyState' => Webinary::LOBBY_NONE,
 			'lobbyTimer' => 0,
+			'sipEnabled' => Webinary::SIP_DISABLED,
 			'lastPing' => 0,
 			'sessionId' => '0',
 			'guestList' => '',
@@ -514,6 +515,7 @@ class RoomController extends AEnvironmentAwareController {
 				'lastActivity' => $lastActivity,
 				'lobbyState' => $room->getLobbyState(),
 				'lobbyTimer' => $lobbyTimer,
+				'sipEnabled' => $room->getSIPEnabled(),
 			]);
 		}
 
@@ -535,6 +537,7 @@ class RoomController extends AEnvironmentAwareController {
 			'notificationLevel' => $currentParticipant->getNotificationLevel(),
 			'lobbyState' => $room->getLobbyState(),
 			'lobbyTimer' => $lobbyTimer,
+			'sipEnabled' => $room->getSIPEnabled(),
 			'lastPing' => $currentParticipant->getLastPing(),
 			'sessionId' => $currentParticipant->getSessionId(),
 		]);
