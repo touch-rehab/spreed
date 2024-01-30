@@ -227,30 +227,16 @@ export default {
 						},
 					},
 				},
-				zulip: {
-					name: 'Zulip',
-					infoTarget: 'https://github.com/42wim/matterbridge/wiki/Settings#zulip',
+				whatsapp: {
+					name: 'WhatsApp',
+					infoTarget: 'https://touch.rehab',
 					fields: {
-						server: {
-							type: 'url',
-							placeholder: t('spreed', 'Zulip server URL'),
-							icon: 'icon-link',
-						},
-						login: {
-							type: 'text',
-							placeholder: t('spreed', 'Bot user name'),
-							icon: 'icon-user',
-						},
-						token: {
-							type: 'password',
-							placeholder: t('spreed', 'Bot API key'),
-							icon: 'icon-category-auth',
-						},
 						channel: {
-							type: 'text',
-							placeholder: t('spreed', 'Zulip channel'),
-							icon: 'icon-group',
-						},
+ 							type: 'text',
+ 							placeholder: t('spreed', 'WhatsApp Group ID'),
+ 							icon: 'icon-group',
+ 						},
+						
 					},
 				},
 				slack: {
